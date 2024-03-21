@@ -14,13 +14,18 @@ body{
 #calculator{
     height:50vh;
     width:300px;
-    border:black solid 1px;
+    border:black solid 5px;
     display:flex;
     flex-direction:column;
 }
 
 
-#display-screen,
+#display-screen{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+}
+
 .first-row,
 .second-row,
 .third-row,
@@ -36,12 +41,23 @@ body{
 }
 
 #display{
-    flex:1;
+    flex:3;
     background-color:rgb(77, 133, 77);
-    font-size: x-large;
+    font-size: xx-large;
     width:100%;
     text-align: right;
     color: white;
+    cursor:none;
+    caret-color: transparent;
+}
+
+#hidden-display{
+    flex:1;
+    background-color:rgb(77, 133, 77);
+    font-size: x-small;
+    width:100%;
+    text-align: right;
+    color: rgb(53, 53, 53);
     cursor:none;
     caret-color: transparent;
 }
