@@ -65,6 +65,8 @@ function clearScreen(){
     hiddenScreen.value="";
 }
 
+let hiddenFlag=false;
+
 function addCalc(){
 
     let digit = this.textContent;
@@ -80,22 +82,26 @@ function addCalc(){
         else if(val==0 && (digit=="+" || digit=="-" || digit=="*" || digit=="/")){
             return;
         }
-        else if((val[val.length-1]=="+"||val[val.length-1]=="*"||val[val.length-1]=="/"||val[val.length-1]=="-")
-                &&(digit=="+"||digit=="-"||digit=="*"||digit=="/")){
-            return;
-        }
         else if(digit=="+" || digit=="-" || digit=="*" || digit=="/"){
             if(hiddenScreen.value==""){
                 hiddenScreen.value=val+digit;
+                val="";
             }
             else if(hiddenScreen.value!=""){
-                displayScreen.value = calculateResult;
-                hiddenScreen.value = "";
+                flag=true;
+                val = calculateResult();
+                hiddenScreen.value = val+digit;
             }
-            val="";
+            
         }
         else{
+            if(flag){
+                val=digit;
+                flag=false;
+            }
+            else{
             val+=digit;
+            }
         }
     }
 
