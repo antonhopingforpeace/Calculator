@@ -52,7 +52,7 @@ const decimalKey = document.querySelector(".decimal");
 const equalKey = document.querySelector(".result");
 
 function calculateResult(){
-    if(hiddenScreen.value==""){
+    if(hiddenScreen.value==""||hiddenScreen.value==" "){
         return;
     }
     else{
@@ -67,10 +67,11 @@ function calculateResult(){
             displayScreen.value=displayScreen.value.slice(0,displayScreen.value.length-1);
         }
         hiddenScreen.value="";
-        //Here is where i will add something to protect my screen from adding extra numbers
-        // if(this.textContent=="="){
-        //     alert("fuck");
-        // }
+        
+        if(this.textContent=="="){
+            hiddenScreen.value=" ";
+        }
+
         return displayScreen.value;
     }
 }
@@ -95,8 +96,17 @@ function addCalc(){
     
     if(val.length<15){
 
+        if(hiddenScreen.value===" " && digit!="+" && digit!="-" && digit!="*" && digit!="/"){
+            if(digit==="."){
+                val="0.";
+            }
+            else{
+                val=digit;
+            }
 
-        if(val==="0" && digit!="+" && digit!="-" && digit!="*" && digit!="/" && digit!="."){
+            hiddenScreen.value="";
+        }
+        else if(val==="0" && digit!="+" && digit!="-" && digit!="*" && digit!="/" && digit!="."){
             val=digit;
         }
         else if(val==0 && digit =="."){
@@ -106,6 +116,9 @@ function addCalc(){
             return;
         }
         else if(digit=="+" || digit=="-" || digit=="*" || digit=="/"){
+            if(hiddenScreen.value==" "){
+                hiddenScreen.value="";
+            }
             if(hiddenScreen.value==""){
                 hiddenScreen.value=val+digit;
                 val="";
