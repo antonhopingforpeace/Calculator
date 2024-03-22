@@ -39,6 +39,12 @@ body{
 .key{
     flex:1;
 }
+.zero{
+    flex:2;
+}
+.clear{
+    flex:2;
+}
 
 #display{
     flex:3;
