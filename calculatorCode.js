@@ -72,6 +72,15 @@ function calculateResult(){
             hiddenScreen.value=" ";
         }
 
+        if(displayScreen.value.length>13){
+            if(displayScreen.value[displayScreen.value.length-4]=="e"||displayScreen.value[displayScreen.value.length-3]=="e"){
+                let placeOfE= displayScreen.value.indexOf("e");
+                displayScreen.value = displayScreen.value.slice(0,13-displayScreen.value.slice(placeOfE).length)+displayScreen.value.slice(placeOfE)
+            }
+            else{
+                displayScreen.value = displayScreen.value.slice(0,13);
+            }
+        }
         return displayScreen.value;
     }
 }
@@ -88,6 +97,7 @@ function clearScreen(){
 }
 
 let flag=false;
+let hiddenFlag=true;
 
 function addCalc(){
 
@@ -115,15 +125,22 @@ function addCalc(){
         else if(val==0 && (digit=="+" || digit=="-" || digit=="*" || digit=="/")){
             return;
         }
+        else if((digit=="+" || digit=="-" || digit=="*" || digit=="/")&&!hiddenFlag){
+            return
+        }
         else if(digit=="+" || digit=="-" || digit=="*" || digit=="/"){
+            if(val[val.length-1]===" "){
+                return;
+            }
             if(hiddenScreen.value==" "){
                 hiddenScreen.value="";
             }
             if(hiddenScreen.value==""){
                 hiddenScreen.value=val+digit;
-                val="";
+                val+=" ";
             }
             else if(hiddenScreen.value!=""){
+                hiddenFlag=false;
                 flag=true;
                 val = calculateResult();
                 hiddenScreen.value = val+digit;
@@ -131,6 +148,10 @@ function addCalc(){
             
         }
         else{
+            if(val.length==13){
+                return;
+            }
+            hiddenFlag=true;
             if(flag){
                 val=digit;
                 flag=false;
@@ -139,7 +160,12 @@ function addCalc(){
                 if(digit=="." && val.indexOf(".")!=-1){
                     return;
                 }
-                val+=digit;
+                if(val[val.length-1]===" "){
+                    val=digit;
+                }
+                else{
+                    val+=digit;
+                }
             }
         }
     }
@@ -157,6 +183,16 @@ const arrOfCalc = [addKey,subtractKey,multiplyKey,divideKey,decimalKey];
 for(let i=0;i<arrOfCalc.length;i++){
     arrOfCalc[i].addEventListener("click",addCalc);
 }
+for(let i=0;i<arrOfCalc.length-1;i++){
+    arrOfCalc[i].addEventListener('focus', (e) => {
+        e.target.style.backgroundColor = 'Blue';
+    });
+}
+for(let i=0;i<arrOfCalc.length-1;i++){
+    arrOfCalc[i].addEventListener('blur', (e) => {
+        e.target.style.backgroundColor = '';
+    });
+}
 
 function addNumber(){
     if(hiddenScreen.value==""){
@@ -168,12 +204,7 @@ function addNumber(){
     }
 }
 
-// function refreshNumber(){
-
-// }
-
 equalKey.addEventListener("click",calculateResult);
-//equalKey.addEventListener("click",refreshNumber);
 
 clearKey.addEventListener("click",clearScreen);
 

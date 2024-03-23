@@ -12,11 +12,14 @@ body{
 }
 
 #calculator{
-    height:50vh;
-    width:300px;
+    border-radius: 10px;
+    height:60vh;
+    width:350px;
     border:black solid 5px;
     display:flex;
     flex-direction:column;
+    padding: 10px;
+    background-color: rgb(180, 176, 176);
 }
 
 
@@ -24,6 +27,7 @@ body{
     flex:1;
     display:flex;
     flex-direction: column;
+    padding-bottom: 10px;
 }
 
 .first-row,
@@ -47,12 +51,12 @@ body{
 }
 
 #display{
-    flex:3;
+    flex:4;
     background-color:rgb(77, 133, 77);
-    font-size: xx-large;
+    font-size: 40px;
     width:100%;
     text-align: right;
-    color: white;
+    color: black;
     cursor:none;
     caret-color: transparent;
 }
@@ -66,4 +70,35 @@ body{
     color: rgb(53, 53, 53);
     cursor:none;
     caret-color: transparent;
+}
+
+.number,
+.decimal,
+.clear,
+.delete,
+.add,
+.subtract,
+.division,
+.multiply,
+.delete,
+.result{
+    font-weight:bolder;
+    font-size:large;
+    background-color: rgb(51, 88, 209);
+    border-radius: 6px;
+}
+.number,
+.decimal{
+    background-color: white;
+}
+.clear,
+.delete{
+    background-color: rgb(202, 135, 10);
+}
+.result{
+    background-color: rgb(97, 82, 0);
+}
+
+.key:hover{
+    font-size:150%;
 }
