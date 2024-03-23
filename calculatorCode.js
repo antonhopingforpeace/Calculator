@@ -52,7 +52,7 @@ const decimalKey = document.querySelector(".decimal");
 const equalKey = document.querySelector(".result");
 
 function calculateResult(){
-    if(hiddenScreen.value==""||hiddenScreen.value==" "){
+    if(hiddenScreen.value==""||hiddenScreen.value==" "||displayScreen.value[displayScreen.value.length-1]===" "){
         return;
     }
     else{
