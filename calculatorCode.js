@@ -35,55 +35,45 @@ const operate = function(num1,op,num2){
 }
 
 
-const displayScreen= document.getElementById("display");
-const hiddenScreen= document.getElementById("hidden-display");
-
-const clearKey = document.querySelector(".clear")
-const deleteKey = document.querySelector(".delete");
-
-const addKey = document.querySelector(".add");
-const subtractKey = document.querySelector(".subtract");
-const multiplyKey = document.querySelector(".multiply");
-const divideKey = document.querySelector(".division");
-
-const numberKeys = document.getElementsByClassName("number");
-const decimalKey = document.querySelector(".decimal");
-
-const equalKey = document.querySelector(".result");
-
 function calculateResult(){
-    if(hiddenScreen.value==""||hiddenScreen.value==" "||displayScreen.value[displayScreen.value.length-1]===" "){
+    let hVal=hiddenScreen.value;
+    let val=displayScreen.value;
+    if(hVal==""||hVal==" "||val[val.length-1]===" "){
         return;
     }
     else{
-        let op = hiddenScreen.value.substr(-1);
-        let numberOne = hiddenScreen.value.slice(0,hiddenScreen.value.length-1);
-        let numberTwo = displayScreen.value;
-        displayScreen.value = operate(numberOne,op,numberTwo);
-        while(displayScreen.value[displayScreen.value.length-1]==0){
-            displayScreen.value=displayScreen.value.slice(0,displayScreen.value.length-1);
+        let op = hVal.substr(-1);
+        let numberOne = hVal.slice(0,hVal.length-1);
+        let numberTwo = val;
+        val = operate(numberOne,op,numberTwo);
+        while(val[val.length-1]==0){
+            val=val.slice(0,val.length-1);
         }
-        if(displayScreen.value[displayScreen.value.length-1]=="."){
-            displayScreen.value=displayScreen.value.slice(0,displayScreen.value.length-1);
+        if(val[val.length-1]=="."){
+            val=val.slice(0,val.length-1);
         }
-        hiddenScreen.value="";
+        hVal="";
         
         if(this.textContent=="="){
-            hiddenScreen.value=" ";
+            hVal=" ";
         }
 
-        if(displayScreen.value.length>13){
-            if(displayScreen.value[displayScreen.value.length-4]=="e"||displayScreen.value[displayScreen.value.length-3]=="e"){
-                let placeOfE= displayScreen.value.indexOf("e");
-                displayScreen.value = displayScreen.value.slice(0,13-displayScreen.value.slice(placeOfE).length)+displayScreen.value.slice(placeOfE)
+        if(val.length>13){
+            if(val[val.length-4]=="e"||val[val.length-3]=="e"){
+                let placeOfE= val.indexOf("e");
+                val = val.slice(0,13-val.slice(placeOfE).length)+val.slice(placeOfE)
             }
             else{
-                displayScreen.value = displayScreen.value.slice(0,13);
+                val = val.slice(0,13);
             }
         }
+        
+        hiddenScreen.value = hVal;
+        displayScreen.value = val;
         return displayScreen.value;
     }
 }
+
 
 function deleteLastKey(){
     if(displayScreen.value!="Can't divide by zero"){
@@ -91,22 +81,26 @@ function deleteLastKey(){
     }
 }
 
+
 function clearScreen(){
     displayScreen.value=0;
     hiddenScreen.value="";
 }
 
+
 let flag=false;
 let hiddenFlag=true;
+
 
 function addCalc(){
 
     let digit = this.textContent;
     let val=displayScreen.value;
-    
+    let hVal = hiddenScreen.value;
+
     if(val.length<15){
 
-        if(hiddenScreen.value===" " && digit!="+" && digit!="-" && digit!="*" && digit!="/"){
+        if(hVal===" " && digit!="+" && digit!="-" && digit!="*" && digit!="/"){
             if(digit==="."){
                 val="0.";
             }
@@ -114,7 +108,7 @@ function addCalc(){
                 val=digit;
             }
 
-            hiddenScreen.value="";
+            hVal="";
         }
         else if(val==="0" && digit!="+" && digit!="-" && digit!="*" && digit!="/" && digit!="."){
             val=digit;
@@ -132,18 +126,18 @@ function addCalc(){
             if(val[val.length-1]===" "){
                 return;
             }
-            if(hiddenScreen.value==" "){
-                hiddenScreen.value="";
+            if(hVal==" "){
+                hVal="";
             }
-            if(hiddenScreen.value==""){
-                hiddenScreen.value=val+digit;
+            if(hVal==""){
+                hVal=val+digit;
                 val+=" ";
             }
-            else if(hiddenScreen.value!=""){
+            else if(hVal!=""){
                 hiddenFlag=false;
                 flag=true;
                 val = calculateResult();
-                hiddenScreen.value = val+digit;
+                hVal = val+digit;
             }
             
         }
@@ -169,12 +163,31 @@ function addCalc(){
             }
         }
     }
-
+    
+    hiddenScreen.value=hVal;
     displayScreen.value=val;
 }
 
 
+//Declaration of usable buttons+screens of Calculator
+const displayScreen= document.getElementById("display");
+const hiddenScreen= document.getElementById("hidden-display");
 
+const clearKey = document.querySelector(".clear")
+const deleteKey = document.querySelector(".delete");
+
+const addKey = document.querySelector(".add");
+const subtractKey = document.querySelector(".subtract");
+const multiplyKey = document.querySelector(".multiply");
+const divideKey = document.querySelector(".division");
+
+const numberKeys = document.getElementsByClassName("number");
+const decimalKey = document.querySelector(".decimal");
+
+const equalKey = document.querySelector(".result");
+
+
+//Declaration of Event Listeners for each button+screen of calulator
 for(let i=0;i<numberKeys.length;i++){
     numberKeys[i].addEventListener("click",addCalc);
 }
@@ -183,6 +196,7 @@ const arrOfCalc = [addKey,subtractKey,multiplyKey,divideKey,decimalKey];
 for(let i=0;i<arrOfCalc.length;i++){
     arrOfCalc[i].addEventListener("click",addCalc);
 }
+
 for(let i=0;i<arrOfCalc.length-1;i++){
     arrOfCalc[i].addEventListener('focus', (e) => {
         e.target.style.backgroundColor = 'Blue';
@@ -192,16 +206,6 @@ for(let i=0;i<arrOfCalc.length-1;i++){
     arrOfCalc[i].addEventListener('blur', (e) => {
         e.target.style.backgroundColor = '';
     });
-}
-
-function addNumber(){
-    if(hiddenScreen.value==""){
-        hiddenScreen.value=" "
-        displayScreen.value= this.textContent;
-    }
-    else{
-        displayScreen.value+=this.textContent;
-    }
 }
 
 equalKey.addEventListener("click",calculateResult);
